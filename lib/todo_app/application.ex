@@ -9,6 +9,7 @@ defmodule TodoApp.Application do
   def start(_type, _args) do
     children = [
       TodoAppWeb.Telemetry,
+      TodoApp.TodoServer,
       {DNSCluster, query: Application.get_env(:todo_app, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: TodoApp.PubSub},
       # Start the Finch HTTP client for sending emails
