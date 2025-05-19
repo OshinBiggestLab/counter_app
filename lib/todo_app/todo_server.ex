@@ -16,6 +16,10 @@ defmodule TodoApp.TodoServer do
     GenServer.cast(__MODULE__, :decrement)
   end
 
+  def reset do
+    GenServer.cast(__MODULE__, :reset)
+  end
+
   def get do
     GenServer.call(__MODULE__, :get)
   end
@@ -38,6 +42,11 @@ defmodule TodoApp.TodoServer do
   def handle_cast(:decrement, count) do
     new_count = max(count - 1, 0)
     {:noreply, new_count}
+  end
+
+  @impl true
+  def handle_cast(:reset, _count) do
+    {:noreply, 0}
   end
 
   @impl true
