@@ -42,7 +42,7 @@ defmodule TodoAppWeb.TodoAppLive do
             <span class="text-black"><%= @count %></span>
            <button class="rounded-full w-10 h-10 border border-black shadow-lg bg-slate-900" phx-click="increment"> + </button>
           </div>
-          <button class="text-lg">Reset</button>
+          <button class="text-lg" phx-click="reset">Reset</button>
         </section>
       </main>
     """
