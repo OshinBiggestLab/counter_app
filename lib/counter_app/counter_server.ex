@@ -5,23 +5,7 @@ defmodule CounterApp.CounterServer do
   def start_link(_args) do # def start_link(_args) do
     # IO.puts("start_link")
     initial_value = 0
-    GenServer.start_link(__MODULE__, initial_value, name: __MODULE__)
-  end
-
-  def increment do
-    GenServer.cast(__MODULE__, :increment)
-  end
-
-  def decrement do
-    GenServer.cast(__MODULE__, :decrement)
-  end
-
-  def reset do
-    GenServer.cast(__MODULE__, :reset)
-  end
-
-  def get do
-    GenServer.call(__MODULE__, :get)
+    GenServer.start_link(__MODULE__, initial_value, name: :counter)
   end
 
 
@@ -34,21 +18,23 @@ defmodule CounterApp.CounterServer do
   end
 
   @impl true
-  def handle_cast(:increment, count) do
+  def handle_call(:increment, _from ,count) do
     new_count = max(count + 1, 0)
-    Phoenix.PubSub.broadcast(CounterApp.PubSub, "value_updates", {:new_count, count})
-    {:noreply, new_count}
+    Phoenix.PubSub.broadcast(CounterApp.PubSub, "value_updates", {:new_count, new_count})
+    {:reply, new_count, new_count}
   end
 
   @impl true
-  def handle_cast(:decrement, count) do
+  def handle_call(:decrement, _from, count) do
     new_count = max(count - 1, 0)
-    {:noreply, new_count}
+    Phoenix.PubSub.broadcast(CounterApp.PubSub, "value_updates", {:new_count, new_count})
+    {:reply, new_count, new_count}
   end
 
   @impl true
-  def handle_cast(:reset, _count) do
-    {:noreply, 0}
+  def handle_call(:reset, _from, _count) do
+    Phoenix.PubSub.broadcast(CounterApp.PubSub, "value_updates", {:new_count, 0})
+    {:reply, 0, 0}
   end
 
   @impl true
@@ -57,3 +43,4 @@ defmodule CounterApp.CounterServer do
     {:reply, count, count}
   end
 end
+v
