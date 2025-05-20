@@ -1,5 +1,5 @@
-defmodule TodoAppWeb.PageController do
-  use TodoAppWeb, :controller
+defmodule CounterAppWeb.PageController do
+  use CounterAppWeb, :controller
 
   def home(conn, _params) do
     # The home page is often custom made,

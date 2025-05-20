@@ -1,4 +1,4 @@
-defmodule TodoApp.TodoServer do
+defmodule CounterApp.CounterServer do
   use GenServer
 
   # Client | Start GenServer
@@ -35,7 +35,9 @@ defmodule TodoApp.TodoServer do
 
   @impl true
   def handle_cast(:increment, count) do
-    {:noreply, count + 1}
+    new_count = max(count + 1, 0)
+    Phoenix.PubSub.broadcast(CounterApp.PubSub, "value_updates", {:new_count, count})
+    {:noreply, new_count}
   end
 
   @impl true

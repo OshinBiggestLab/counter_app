@@ -1,4 +1,4 @@
-defmodule TodoAppWeb.ErrorJSON do
+defmodule CounterAppWeb.ErrorJSON do
   @moduledoc """
   This module is invoked by your endpoint in case of errors on JSON requests.
 

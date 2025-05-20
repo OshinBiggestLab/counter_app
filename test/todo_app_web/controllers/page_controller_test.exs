@@ -1,5 +1,5 @@
-defmodule TodoAppWeb.PageControllerTest do
-  use TodoAppWeb.ConnCase
+defmodule CounterAppWeb.PageControllerTest do
+  use CounterAppWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

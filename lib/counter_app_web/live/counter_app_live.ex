@@ -1,29 +1,31 @@
-defmodule TodoAppWeb.TodoAppLive do
-  use TodoAppWeb, :live_view
+defmodule CounterAppWeb.CounterAppLive do
+  use CounterAppWeb, :live_view
 
   def mount(_params, _session, socket) do
-    count = TodoApp.TodoServer.get()
+    count = CounterApp.CounterServer.get()
     IO.puts("count on mount #{inspect(count)}")
+
+    if connected?(socket), do: Phoenix.PubSub.subscribe(CounterApp.PubSub, "value_updates")
     {:ok, assign(socket, count: count)}
   end
 
   def handle_event("increment", _params, socket) do
-    TodoApp.TodoServer.increment()
-    count = TodoApp.TodoServer.get()
+    CounterApp.CounterServer.increment()
+    count = CounterApp.CounterServer.get()
     IO.puts("count on increment #{inspect(count)}")
     {:noreply, assign(socket, count: count)}
   end
 
   def handle_event("decrement", _params, socket) do
-    TodoApp.TodoServer.decrement()
-    count = TodoApp.TodoServer.get()
+    CounterApp.CounterServer.decrement()
+    count = CounterApp.CounterServer.get()
     IO.puts("count on decrement #{inspect(count)}")
     {:noreply, assign(socket, count: count)}
   end
 
   def handle_event("reset", _params, socket) do
-    TodoApp.TodoServer.reset()
-    count = TodoApp.TodoServer.get()
+    CounterApp.CounterServer.reset()
+    count = CounterApp.CounterServer.get()
     IO.puts("count on reset #{inspect(count)}")
     {:noreply, assign(socket, count: count)}
   end

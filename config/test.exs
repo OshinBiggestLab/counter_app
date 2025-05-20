@@ -2,13 +2,13 @@ import Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :todo_app, TodoAppWeb.Endpoint,
+config :counter_app, CounterAppWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "UZDIQR1DFy6WsQsDziWbmCKlFCJFxvqRHGXkQ4x55U2MSjjWmhcs1X3ABfOdD6JZ",
   server: false
 
 # In test we don't send emails
-config :todo_app, TodoApp.Mailer, adapter: Swoosh.Adapters.Test
+config :counter_app, CounterApp.Mailer, adapter: Swoosh.Adapters.Test
 
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false

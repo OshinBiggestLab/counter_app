@@ -7,18 +7,18 @@
 # General application configuration
 import Config
 
-config :todo_app,
+config :counter_app,
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :todo_app, TodoAppWeb.Endpoint,
+config :counter_app, CounterAppWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: TodoAppWeb.ErrorHTML, json: TodoAppWeb.ErrorJSON],
+    formats: [html: CounterAppWeb.ErrorHTML, json: CounterAppWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: TodoApp.PubSub,
+  pubsub_server: CounterApp.PubSub,
   live_view: [signing_salt: "lqJ+yzvB"]
 
 # Configures the mailer
@@ -28,12 +28,12 @@ config :todo_app, TodoAppWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :todo_app, TodoApp.Mailer, adapter: Swoosh.Adapters.Local
+config :counter_app, CounterApp.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  todo_app: [
+  counter_app: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
@@ -43,7 +43,7 @@ config :esbuild,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.3",
-  todo_app: [
+  counter_app: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css
