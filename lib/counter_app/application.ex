@@ -9,7 +9,7 @@ defmodule CounterApp.Application do
   def start(_type, _args) do
     children = [
       CounterAppWeb.Telemetry,
-      CounterApp.TodoServer,
+      CounterApp.CounterServer,
       {DNSCluster, query: Application.get_env(:counter_app, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: CounterApp.PubSub},
       # Start the Finch HTTP client for sending emails
