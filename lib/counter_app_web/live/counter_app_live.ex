@@ -2,32 +2,33 @@ defmodule CounterAppWeb.CounterAppLive do
   use CounterAppWeb, :live_view
 
   def mount(_params, _session, socket) do
-    count = CounterApp.CounterServer.get()
-    IO.puts("count on mount #{inspect(count)}")
+    count = GenServer.call(:counter, :get)
 
-    if connected?(socket), do: Phoenix.PubSub.subscribe(CounterApp.PubSub, "value_updates")
+    :ok = Phoenix.PubSub.subscribe(CounterApp.PubSub, "value_updates")
     {:ok, assign(socket, count: count)}
   end
 
-  def handle_event("increment", _params, socket) do
-    CounterApp.CounterServer.increment()
-    count = CounterApp.CounterServer.get()
-    IO.puts("count on increment #{inspect(count)}")
+  def handle_info({:new_count, count}, socket) do
+    IO.puts("new count #{inspect(count)}")
     {:noreply, assign(socket, count: count)}
+  end
+
+
+
+  def handle_event("increment", _params, socket) do
+    # :counter.increment()
+    _new_count = GenServer.call(:counter, :increment)
+    {:noreply, socket}
   end
 
   def handle_event("decrement", _params, socket) do
-    CounterApp.CounterServer.decrement()
-    count = CounterApp.CounterServer.get()
-    IO.puts("count on decrement #{inspect(count)}")
-    {:noreply, assign(socket, count: count)}
+    _new_count = GenServer.call(:counter, :decrement)
+    {:noreply, socket}
   end
 
   def handle_event("reset", _params, socket) do
-    CounterApp.CounterServer.reset()
-    count = CounterApp.CounterServer.get()
-    IO.puts("count on reset #{inspect(count)}")
-    {:noreply, assign(socket, count: count)}
+    _new_count = GenServer.call(:counter, :reset)
+    {:noreply, socket}
   end
 
   @spec render(any()) :: Phoenix.LiveView.Rendered.t()
